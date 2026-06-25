@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#1a1a2e">
+    <meta name="description" content="محمود - تطبيق مواقيت الصلاة والخدمات الإسلامية المتكامل">
+    <title>محمود - مواقيت الصلاة</title>
+    
+    <!-- Font Awesome للأيقونات -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- ربط ملفات CSS -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- ======================== الناف بار العلوي ======================== -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <div class="navbar-logo">
+                <i class="fas fa-mosque"></i>
+                <span>محمود</span>
+            </div>
+            <div class="navbar-menu">
+                <button class="nav-btn active" data-tab="times">
+                    <i class="fas fa-clock"></i>
+                    <span>المواقيت</span>
+                </button>
+                <button class="nav-btn" data-tab="quran">
+                    <i class="fas fa-book"></i>
+                    <span>القرآن</span>
+                </button>
+                <button class="nav-btn" data-tab="athkar">
+                    <i class="fas fa-prayer"></i>
+                    <span>الأذكار</span>
+                </button>
+                <button class="nav-btn" data-tab="settings">
+                    <i class="fas fa-cog"></i>
+                    <span>الإعدادات</span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ======================== المحتوى الرئيسي ======================== -->
+    <main class="main-container">
+        
+        <!-- ==================== تبويب المواقيت ==================== -->
+        <section id="times-section" class="tab-section active">
+            <!-- اختيار الموقع -->
+            <div class="location-card">
+                <div class="location-header">
+                    <h2 class="location-title">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span id="city-name">جاري التحديث...</span>
+                    </h2>
+                    <p id="country-name" class="location-country">---</p>
+                </div>
+                
+                <!-- البحث اليدوي -->
+                <div class="search-container">
+                    <input 
+                        type="text" 
+                        id="city-search" 
+                        class="search-input" 
+                        placeholder="ابحث عن مدينة..."
+                        autocomplete="off"
+                    >
+                    <button id="search-btn" class="search-btn">
+                        <i class="fas fa-search"></i>
+                    </button>
+                    <button id="gps-btn" class="gps-btn" title="استخدام موقعك الحالي">
+                        <i class="fas fa-location-dot"></i>
+                    </button>
+                </div>
+
+                <!-- قائمة نتائج البحث -->
+                <div id="search-results" class="search-results hidden"></div>
+            </div>
+
+            <!-- بطاقة الوقت الحالي والعد التنازلي المزدوج -->
+            <div class="timer-card">
+                <div class="current-time">
+                    <h3>الوقت الحالي</h3>
+                    <div class="time-display" id="current-time">00:00:00</div>
+                </div>
+
+                <div class="next-prayer">
+                    <h3>الصلاة القادمة</h3>
+                    <div class="next-prayer-name" id="next-prayer-name">---</div>
+                    <div class="countdown-section">
+                        <!-- العد التنازلي للأذان -->
+                        <div class="countdown-item">
+                            <span class="countdown-label">حتى الأذان</span>
+                            <div class="countdown" id="countdown-adhan">00:00:00</div>
+                        </div>
+
+                        <!-- العد التنازلي للإقامة -->
+                        <div class="countdown-item">
+                            <span class="countdown-label">حتى الإقامة</span>
+                            <div class="countdown" id="countdown-iqama">00:00:00</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- مواقيت الصلوات اليومية -->
+            <div class="prayers-grid">
+                <div class="prayer-card" data-prayer="Fajr">
+                    <div class="prayer-icon">
+                        <i class="fas fa-moon"></i>
+                    </div>
+                    <h3 class="prayer-name">الفجر</h3>
+                    <p class="prayer-time" id="time-Fajr">--:--</p>
+                    <p class="prayer-iqama">إقامة: <span id="iqama-Fajr">--:--</span></p>
+                </div>
+
+                <div class="prayer-card" data-prayer="Dhuhr">
+                    <div class="prayer-icon">
+                        <i class="fas fa-sun"></i>
+                    </div>
+                    <h3 class="prayer-name">الظهر</h3>
+                    <p class="prayer-time" id="time-Dhuhr">--:--</p>
+                    <p class="prayer-iqama">إقامة: <span id="iqama-Dhuhr">--:--</span></p>
+                </div>
+
+                <div class="prayer-card" data-prayer="Asr">
+                    <div class="prayer-icon">
+                        <i class="fas fa-cloud"></i>
+                    </div>
+                    <h3 class="prayer-name">العصر</h3>
+                    <p class="prayer-time" id="time-Asr">--:--</p>
+                    <p class="prayer-iqama">إقامة: <span id="iqama-Asr">--:--</span></p>
+                </div>
+
+                <div class="prayer-card" data-prayer="Maghrib">
+                    <div class="prayer-icon">
+                        <i class="fas fa-sunset"></i>
+                    </div>
+                    <h3 class="prayer-name">المغرب</h3>
+                    <p class="prayer-time" id="time-Maghrib">--:--</p>
+                    <p class="prayer-iqama">إقامة: <span id="iqama-Maghrib">--:--</span></p>
+                </div>
+
+                <div class="prayer-card" data-prayer="Isha">
+                    <div class="prayer-icon">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <h3 class="prayer-name">العشاء</h3>
+                    <p class="prayer-time" id="time-Isha">--:--</p>
+                    <p class="prayer-iqama">إقامة: <span id="iqama-Isha">--:--</span></p>
+                </div>
+
+                <div class="prayer-card" data-prayer="Sunrise">
+                    <div class="prayer-icon">
+                        <i class="fas fa-sunrise"></i>
+                    </div>
+                    <h3 class="prayer-name">الشروق</h3>
+                    <p class="prayer-time" id="time-Sunrise">--:--</p>
+                </div>
+            </div>
+
+            <!-- اتجاه القبلة -->
+            <div class="qibla-card">
+                <h3>اتجاه القبلة</h3>
+                <div class="compass-container">
+                    <div class="compass">
+                        <div class="compass-arrow" id="qibla-arrow"></div>
+                        <div class="compass-circle">
+                            <span class="direction north">ش</span>
+                            <span class="direction east">غ</span>
+                            <span class="direction south">ج</span>
+                            <span class="direction west">ق</span>
+                        </div>
+                    </div>
+                </div>
+                <p class="qibla-angle" id="qibla-angle">---</p>
+            </div>
+        </section>
+
+        <!-- ==================== تبويب القرآن الكريم ==================== -->
+        <section id="quran-section" class="tab-section">
+            <div class="quran-container">
+                <div class="quran-header">
+                    <h2>المصحف الإلكتروني</h2>
+                    <div class="surah-selector">
+                        <select id="surah-select" class="select-input">
+                            <option value="">اختر السورة...</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- محتوى القرآن -->
+                <div id="quran-content" class="quran-content">
+                    <p class="placeholder-text">اختر سورة لبدء القراءة</p>
+                </div>
+
+                <!-- أزرار التحكم -->
+                <div class="quran-controls">
+                    <button id="prev-ayah" class="control-btn">
+                        <i class="fas fa-chevron-right"></i>
+                        السابق
+                    </button>
+                    <span id="ayah-counter" class="ayah-counter">---</span>
+                    <button id="next-ayah" class="control-btn">
+                        التالي
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- المسبحة الإلكترونية -->
+            <div class="sabha-card">
+                <h3>المسبحة الإلكترونية</h3>
+                <div class="sabha-counter" id="sabha-counter">0</div>
+                <button id="sabha-btn" class="sabha-btn">
+                    اضغط للتسبيح
+                </button>
+                <button id="sabha-reset" class="sabha-reset-btn">
+                    <i class="fas fa-redo"></i>
+                    إعادة تعيين
+                </button>
+            </div>
+        </section>
+
+        <!-- ==================== تبويب الأذكار ==================== -->
+        <section id="athkar-section" class="tab-section">
+            <div class="athkar-container">
+                <div class="athkar-tabs">
+                    <button class="athkar-tab active" data-athkar="morning">
+                        أذكار الصباح
+                    </button>
+                    <button class="athkar-tab" data-athkar="evening">
+                        أذكار المساء
+                    </button>
+                    <button class="athkar-tab" data-athkar="prayer">
+                        أذكار الصلاة
+                    </button>
+                    <button class="athkar-tab" data-athkar="sleep">
+                        أذكار النوم
+                    </button>
+                </div>
+
+                <!-- محتوى الأذكار -->
+                <div id="athkar-content" class="athkar-content">
+                    <!-- سيتم ملأه بـ JavaScript -->
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== تبويب الإعدادات ==================== -->
+        <section id="settings-section" class="tab-section">
+            <div class="settings-container">
+                <!-- إعدادات الأذان الصوتي -->
+                <div class="settings-group">
+                    <h3 class="settings-title">إعدادات الأذان الصوتي</h3>
+                    
+                    <div class="setting-item">
+                        <label for="adhan-volume">مستوى الصوت</label>
+                        <input 
+                            type="range" 
+                            id="adhan-volume" 
+                            min="0" 
+                            max="100" 
+                            value="70"
+                            class="volume-slider"
+                        >
+                        <span id="volume-display">70%</span>
+                    </div>
+
+                    <div class="setting-item">
+                        <label for="adhan-select">تحديد صوت الأذان</label>
+                        <select id="adhan-select" class="select-input">
+                            <option value="makkah">أذان مكة المكرمة</option>
+                            <option value="egypt">أذان مصر</option>
+                            <option value="madinah">أذان المدينة المنورة</option>
+                            <option value="default">صوت افتراضي</option>
+                        </select>
+                    </div>
+
+                    <!-- تفعيل/كتم الأذان لكل صلاة -->
+                    <div class="adhan-toggles">
+                        <div class="toggle-item">
+                            <label for="adhan-fajr">أذان الفجر</label>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="adhan-fajr" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                        <div class="toggle-item">
+                            <label for="adhan-dhuhr">أذان الظهر</label>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="adhan-dhuhr" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                        <div class="toggle-item">
+                            <label for="adhan-asr">أذان العصر</label>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="adhan-asr" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                        <div class="toggle-item">
+                            <label for="adhan-maghrib">أذان المغرب</label>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="adhan-maghrib" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                        <div class="toggle-item">
+                            <label for="adhan-isha">أذان العشاء</label>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="adhan-isha" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- زر تفعيل الإذن الصوتي (مهم جداً للـ iPhone) -->
+                    <button id="enable-notification-btn" class="btn btn-primary btn-full">
+                        <i class="fas fa-bell"></i>
+                        تفعيل التنبيهات الصوتية
+                    </button>
+                </div>
+
+                <!-- إعدادات طريقة الحساب -->
+                <div class="settings-group">
+                    <h3 class="settings-title">طريقة حساب المواقيت</h3>
+                    <select id="calculation-method" class="select-input">
+                        <option value="2">جامعة أم القرى (السعودية)</option>
+                        <option value="5">الهيئة المصرية العامة للمساحة</option>
+                        <option value="3">جامعة الملك عبد العزيز</option>
+                        <option value="4">الدائرة الدينية (الإمارات)</option>
+                        <option value="1">كلية الهندسة - جامعة طهران</option>
+                        <option value="0">الرابطة الإسلامية بأمريكا الشمالية</option>
+                        <option value="7">الجمعية الإسلامية بأوروبا</option>
+                    </select>
+                </div>
+
+                <!-- إعدادات وقت الإقامة -->
+                <div class="settings-group">
+                    <h3 class="settings-title">وقت الإقامة (بالدقائق)</h3>
+                    <div class="iqama-settings">
+                        <div class="iqama-item">
+                            <label for="iqama-fajr">الفجر</label>
+                            <input type="number" id="iqama-fajr" value="10" min="0" max="60">
+                        </div>
+                        <div class="iqama-item">
+                            <label for="iqama-dhuhr">الظهر</label>
+                            <input type="number" id="iqama-dhuhr" value="10" min="0" max="60">
+                        </div>
+                        <div class="iqama-item">
+                            <label for="iqama-asr">العصر</label>
+                            <input type="number" id="iqama-asr" value="10" min="0" max="60">
+                        </div>
+                        <div class="iqama-item">
+                            <label for="iqama-maghrib">المغرب</label>
+                            <input type="number" id="iqama-maghrib" value="5" min="0" max="60">
+                        </div>
+                        <div class="iqama-item">
+                            <label for="iqama-isha">العشاء</label>
+                            <input type="number" id="iqama-isha" value="10" min="0" max="60">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- إعدادات الوضع الصامت -->
+                <div class="settings-group">
+                    <h3 class="settings-title">الوضع الصامت الذكي</h3>
+                    <div class="toggle-item">
+                        <label for="silent-mode">تفعيل الوضع الصامت عند الأذان</label>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="silent-mode" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    <p class="setting-note">سيتم تفعيل الوضع الصامت لمدة 20 دقيقة عند كل أذان</p>
+                </div>
+
+                <!-- معلومات عن البرنامج -->
+                <div class="settings-group">
+                    <h3 class="settings-title">معلومات التطبيق</h3>
+                    <div class="app-info">
+                        <p><strong>الاسم:</strong> محمود</p>
+                        <p><strong>الإصدار:</strong> 1.0.0</p>
+                        <p><strong>الحالة:</strong> <span id="offline-status">متصل بالإنترنت</span></p>
+                        <p><strong>حجم المخزن المستخدم:</strong> <span id="storage-used">0 KB</span></p>
+                    </div>
+                </div>
+
+                <!-- زر مسح البيانات -->
+                <button id="clear-data-btn" class="btn btn-danger btn-full">
+                    <i class="fas fa-trash"></i>
+                    مسح جميع البيانات المحفوظة
+                </button>
+            </div>
+        </section>
+    </main>
+
+    <!-- ======================== Modal للبحث عن المدينة ======================== -->
+    <div id="city-modal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>اختر المدينة</h2>
+                <button class="modal-close" id="modal-close">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div id="modal-cities" class="modal-cities">
+                <!-- سيتم ملأه بـ JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <!-- ======================== Toast Notifications ======================== -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <!-- ======================== ربط ملفات JavaScript ======================== -->
+    <script src="config.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
